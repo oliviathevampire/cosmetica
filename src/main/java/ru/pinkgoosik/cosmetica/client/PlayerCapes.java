@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerCapes {
-
 	private final ArrayList<PlayerCapes.PlayerCapeEntry> entries = new ArrayList<>();
-	private final ArrayList<String> currentlyAvailableCapes = new ArrayList<>(List.of("light_green", "purple", "red", "blue", "brown", "pink", "green", "light_blue"));
+	private final ArrayList<String> currentlyAvailableCapes = new ArrayList<>(List.of("uni", "light_green", "purple", "red", "blue", "brown", "pink", "green", "light_blue", "trans"));
 
 	String URL_STRING = "https://gist.githubusercontent.com/oliviathevampire/19dce3255ce7420b89fb0ab771c93107/raw";
 	String TEST_URL_STRING = "https://pinkgoosik.ru/data/capes.json";

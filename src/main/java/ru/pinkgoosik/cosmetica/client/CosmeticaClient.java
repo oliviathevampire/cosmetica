@@ -1,30 +1,35 @@
 package ru.pinkgoosik.cosmetica.client;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.pinkgoosik.cosmetica.client.render.CosmeticFeatureRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class CosmeticaClient implements ClientModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("Cosmetica");
+    private static final int FORMAT_VERSION = 0;
 
 	private static PlayerCapes playerCapes;
 	private static PlayerCosmetics playerCosmetics;
 
 	@Override
 	public void onInitializeClient() {
+        if(!isCompatibleFormat()) return;
 		ClientTickEvents.END_CLIENT_TICK.register(new LoadCosmeticsEvent());
 
-		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
-			if(entityRenderer instanceof PlayerEntityRenderer playerEntityRenderer){
-				registrationHelper.register(new CosmeticFeatureRenderer(playerEntityRenderer));
-			}
-		});
+//		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
+//			if(entityRenderer instanceof PlayerEntityRenderer playerEntityRenderer){
+//				registrationHelper.register(new CosmeticFeatureRenderer(playerEntityRenderer));
+//			}
+//		});
 	}
 
 	public static void initPlayerCosmetics() {
@@ -59,4 +64,15 @@ public class CosmeticaClient implements ClientModInitializer {
 		return playerCosmetics;
 	}
 
+    private boolean isCompatibleFormat(){
+        try{
+            URL url = new URL("https://pinkgoosik.ru/data/cosmetica.json");
+            URLConnection request = url.openConnection();
+            request.connect();
+            JsonParser parser = new JsonParser();
+            JsonObject object = parser.parse(new InputStreamReader((InputStream)request.getContent())).getAsJsonObject();
+            return object.getAsJsonObject().get("formatVersion").getAsInt() == FORMAT_VERSION;
+        } catch (IOException ignored) {}
+        return false;
+    }
 }

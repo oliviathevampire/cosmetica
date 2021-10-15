@@ -11,9 +11,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class PlayerCosmetics {
-
     private final ArrayList<PlayerCosmeticEntry> entries = new ArrayList<>();
-
     String URL_STRING = "https://gist.github.com/oliviathevampire/ac530435d47dab1817d6a0b2ae132a3c/raw";
 
     public PlayerCosmetics() throws IOException {
@@ -70,6 +68,5 @@ public class PlayerCosmetics {
                 return new PlayerCosmeticEntry(playerName, playerUuid, cosmetic, placement);
             }
         }
-
     }
 }

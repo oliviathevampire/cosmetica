@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 
 public class LoadCosmeticsEvent implements ClientTickEvents.EndTick {
-
     boolean isLoaded = false;
 
     @Override
@@ -12,7 +11,7 @@ public class LoadCosmeticsEvent implements ClientTickEvents.EndTick {
         if(client.world != null){
             if(!isLoaded){
                 CosmeticaClient.initPlayerCapes();
-                CosmeticaClient.initPlayerCosmetics();
+//                CosmeticaClient.initPlayerCosmetics();
                 isLoaded = true;
             }
         }else isLoaded = false;
