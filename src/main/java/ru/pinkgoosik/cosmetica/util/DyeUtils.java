@@ -1,4 +1,4 @@
-package ru.pinkgoosik.cosmetica.client.util;
+package ru.pinkgoosik.cosmetica.util;
 
 import com.google.common.collect.Maps;
 import net.minecraft.entity.LivingEntity;
@@ -39,5 +39,4 @@ public class DyeUtils {
 		float b = fs[2] * (1.0F - r2) + gs[2] * r2;
 		return new float[] {r, g, b};
 	}
-
 }

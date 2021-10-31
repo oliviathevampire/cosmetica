@@ -1,4 +1,4 @@
-package ru.pinkgoosik.cosmetica.client.util;
+package ru.pinkgoosik.cosmetica.util;
 
 public class ColorUtil {
 	private static final float[] FLOAT_BUFFER = new float[4];

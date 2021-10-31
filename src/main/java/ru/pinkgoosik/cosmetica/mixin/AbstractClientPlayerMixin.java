@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import ru.pinkgoosik.cosmetica.client.CosmeticaClient;
-import ru.pinkgoosik.cosmetica.client.PlayerCapes;
+import ru.pinkgoosik.cosmetica.data.PlayerCloaks;
 
 import java.util.UUID;
 
@@ -26,30 +25,25 @@ public abstract class AbstractClientPlayerMixin extends PlayerEntity {
 
 	@Inject(method = "getCapeTexture", at = @At("HEAD"), cancellable = true)
 	void getCapeTexture(CallbackInfoReturnable<Identifier> cir) {
-		PlayerCapes capes = CosmeticaClient.getPlayerCapes();
-		String capeId = "cosmetica:textures/cape/type.png";
-
-		if (capes != null) {
-			capes.getEntries().forEach(entry -> {
-				if (!entry.playerUuid().equals("-") && this.getUuid().equals(UUID.fromString(entry.playerUuid())) || this.getName().asString().equals(entry.playerName())) {
-					if (entry.cape().equals("uni")) {
-						cir.setReturnValue(new Identifier(getUniCapeType()));
-					} else if (capes.getAvailableCapes().contains(entry.cape())) {
-						cir.setReturnValue(new Identifier(capeId.replaceAll("type", entry.cape())));
-					}
+		String template = "cosmetica:textures/cloak/name.png";
+		PlayerCloaks.ENTRIES.forEach(entry -> {
+			if(this.getUuid().equals(UUID.fromString(entry.uuid())) || this.getName().asString().equals(entry.name())){
+				if(PlayerCloaks.CLOAKS.contains(entry.cloak())){
+					if (entry.cloak().equals("uni")) cir.setReturnValue(new Identifier(getUniCloakId()));
+					cir.setReturnValue(new Identifier(template.replaceAll("name", entry.cloak())));
 				}
-			});
-		}
+			}
+		});
 	}
 
 	@Unique
-	private String getUniCapeType() {
-		String capeId = "cosmetica:textures/cape/type.png";
+	private String getUniCloakId() {
+		String id = "cosmetica:textures/cloak/name.png";
 		RegistryKey<World> worldKey = this.world.getRegistryKey();
-		if (worldKey.equals(World.OVERWORLD)) capeId = capeId.replaceAll("type", "light_green");
-		else if (worldKey.equals(World.NETHER)) capeId = capeId.replaceAll("type", "red");
-		else if (worldKey.equals(World.END)) capeId = capeId.replaceAll("type", "purple");
-		else capeId = capeId.replaceAll("type", "green");
-		return capeId;
+		if (worldKey.equals(World.OVERWORLD)) id = id.replaceAll("name", "turtle");
+		else if (worldKey.equals(World.NETHER)) id = id.replaceAll("name", "crimson");
+		else if (worldKey.equals(World.END)) id = id.replaceAll("name", "violet");
+		else id = id.replaceAll("name", "turtle");
+		return id;
 	}
 }
