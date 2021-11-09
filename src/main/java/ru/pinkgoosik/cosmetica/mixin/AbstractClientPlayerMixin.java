@@ -28,7 +28,7 @@ public abstract class AbstractClientPlayerMixin extends PlayerEntity {
 		String template = "cosmetica:textures/cloak/name.png";
 		PlayerCloaks.ENTRIES.forEach(entry -> {
 			if(this.getUuid().equals(UUID.fromString(entry.uuid())) || this.getName().asString().equals(entry.name())){
-				if(PlayerCloaks.CLOAKS.contains(entry.cloak())){
+				if(PlayerCloaks.CLOAK_NAMES.contains(entry.cloak())){
 					if (entry.cloak().equals("uni")) cir.setReturnValue(new Identifier(getUniCloakId()));
 					cir.setReturnValue(new Identifier(template.replaceAll("name", entry.cloak())));
 				}

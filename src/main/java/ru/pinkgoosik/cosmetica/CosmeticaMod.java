@@ -1,7 +1,9 @@
 package ru.pinkgoosik.cosmetica;
 
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +35,7 @@ public class CosmeticaMod implements ClientModInitializer {
             InputStream stream = request.getInputStream();
             JsonObject object = parser.parse(new InputStreamReader(stream)).getAsJsonObject();
             return object.get("formatVersion").getAsInt() == FORMAT_VERSION;
-        } catch (IOException ignored) {}
+        } catch (IOException | JsonIOException | JsonSyntaxException ignored) {}
         return false;
     }
 }
