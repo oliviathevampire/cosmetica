@@ -4,7 +4,10 @@
   "package": "ru.pinkgoosik.cosmetica.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "AbstractClientPlayerMixin"
+    "AbstractClientPlayerMixin",
+    "CapeLayerMixin",
+    "ElytraLayerMixin",
+    "PlayerEntityModelAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

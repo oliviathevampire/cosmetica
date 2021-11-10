@@ -8,6 +8,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.pinkgoosik.cosmetica.cosmetics.cloak.Cloaks;
+import ru.pinkgoosik.cosmetica.cosmetics.cloak.FancyCloaks;
+import ru.pinkgoosik.cosmetica.data.CachedPlayerCloaks;
 import ru.pinkgoosik.cosmetica.event.LoadCosmeticsEvent;
 
 import java.io.IOException;
@@ -22,8 +25,13 @@ public class CosmeticaMod implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-        if(!isCompatibleFormat()) return;
-		ClientTickEvents.END_CLIENT_TICK.register(new LoadCosmeticsEvent());
+        Cloaks.register();
+        FancyCloaks.register();
+        if(isCompatibleFormat()){
+            ClientTickEvents.END_CLIENT_TICK.register(new LoadCosmeticsEvent());
+        }else {
+            CachedPlayerCloaks.load();
+        }
 	}
 
     private boolean isCompatibleFormat(){

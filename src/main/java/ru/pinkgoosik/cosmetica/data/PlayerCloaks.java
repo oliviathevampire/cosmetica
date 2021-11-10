@@ -9,13 +9,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerCloaks {
 	public static final ArrayList<Entry> ENTRIES = new ArrayList<>();
-	public static final ArrayList<String> CLOAK_NAMES = new ArrayList<>(List.of("uni", "azure", "crimson", "flamingo", "golden",
-			"lapis", "military", "mint", "mystic", "pumpkin", "smoky", "turtle", "violet", "void", "coffee", "pride"));
-	public static final String CLOAKS_DATA_URL = "https://pinkgoosik.ru/data/cloaks.json";
+	private static final String CLOAKS_DATA_URL = "https://pinkgoosik.ru/data/cloaks.json";
 
 	public static void reload() {
 		try{
