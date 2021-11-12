@@ -12,7 +12,7 @@ public class Cloaks {
     public static void register(){
         add(new UniCloak());
         addSimples(new String[]{"azure", "crimson", "flamingo", "golden", "lapis", "military", "mint", "mystic", "pumpkin", "smoky", "turtle", "violet", "void", "coffee"});
-        addSimples(new String[]{"pride"});
+        addSimples(new String[]{"pride", "trans", "lesbian", "gay", "pan", "bi", "non-binary", "genderfluid", "aromantic", "demiromantic", "asexual", "demisexual"});
     }
 
     private static void add(Cloak cloak){

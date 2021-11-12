@@ -30,7 +30,7 @@ public abstract class CapeLayerMixin extends FeatureRenderer<AbstractClientPlaye
 	@Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, CallbackInfo info) {
 		if (player.canRenderCapeTexture() && !player.isInvisible() && player.isPartVisible(PlayerModelPart.CAPE)) {
-			for (PlayerCloaks.Entry entry : PlayerCloaks.ENTRIES) {
+			PlayerCloaks.ENTRIES.forEach(entry -> {
 				if (entry.uuid().equals(player.getGameProfile().getId().toString()) || player.getName().asString().equals(entry.name())) {
 					ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
 					if (!(itemStack.getItem() instanceof ElytraItem)) {
@@ -41,7 +41,7 @@ public abstract class CapeLayerMixin extends FeatureRenderer<AbstractClientPlaye
 						}
 					}
 				}
-			}
+			});
 		}
 	}
 }

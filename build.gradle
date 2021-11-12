@@ -7,7 +7,7 @@ sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = project.mod_version + "-fabric"
 group = project.maven_group
 
 repositories {
@@ -26,18 +26,18 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-renderer-registries-v1:3.2.3+f0bdcfa46e"
 	modImplementation "net.fabricmc.fabric-api:fabric-models-v0:0.3.0+f74f7c7d7d"
 
-	modRuntime "com.terraformersmc:modmenu:2.0.9"
-	modRuntime "supercoder79:databreaker:0.2.7"
+	modRuntimeOnly "com.terraformersmc:modmenu:2.0.9"
+	modRuntimeOnly "supercoder79:databreaker:0.2.7"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.property "version", project.mod_version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": project.mod_version
 	}
 }
 
@@ -69,21 +69,18 @@ jar {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
+			from components.java
 		}
 	}
+	setupRepositories(repositories)
+}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
+void setupRepositories(RepositoryHandler repositories) {
+	repositories.maven {
+		url "https://maven.pinkgoosik.ru/"
+		credentials {
+			username System.getenv("MAVEN_REPO_USER")
+			password System.getenv("MAVEN_REPO_PASS")
+		}
 	}
 }

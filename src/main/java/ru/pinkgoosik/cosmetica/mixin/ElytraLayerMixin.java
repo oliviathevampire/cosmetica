@@ -37,7 +37,7 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T livingEntity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, CallbackInfo info) {
 		if (livingEntity instanceof AbstractClientPlayerEntity player) {
-			for (PlayerCloaks.Entry entry : PlayerCloaks.ENTRIES) {
+			PlayerCloaks.ENTRIES.forEach(entry -> {
 				if (entry.uuid().equals(player.getGameProfile().getId().toString()) || player.getName().asString().equals(entry.name())) {
 					ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
 					if (itemStack.getItem() instanceof ElytraItem) {
@@ -48,7 +48,7 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
 						}
 					}
 				}
-			}
+			});
 		}
 	}
 }

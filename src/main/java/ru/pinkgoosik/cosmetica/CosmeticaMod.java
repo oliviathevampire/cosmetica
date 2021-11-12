@@ -42,7 +42,10 @@ public class CosmeticaMod implements ClientModInitializer {
             JsonParser parser = new JsonParser();
             InputStream stream = request.getInputStream();
             JsonObject object = parser.parse(new InputStreamReader(stream)).getAsJsonObject();
-            return object.get("formatVersion").getAsInt() == FORMAT_VERSION;
+            try {
+                int remoteVersion = object.get("formatVersion").getAsInt();
+                return remoteVersion == FORMAT_VERSION;
+            }catch (ClassCastException ignored){}
         } catch (IOException | JsonIOException | JsonSyntaxException ignored) {}
         return false;
     }

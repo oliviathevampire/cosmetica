@@ -13,7 +13,7 @@ public class FancyCloaks {
         add(new FancyCloak("jeb", new JebCloakRenderer()));
         add(new FancyCloak("cosmic", new CosmicCloakRenderer()));
         add(new FancyCloak("swirly", new SwirlyCloakRenderer()));
-        add(new FancyCloak("glowing", new GlowingCloakRenderer()));
+//        add(new FancyCloak("glowing", new GlowingCloakRenderer()));
     }
 
     private static void add(FancyCloak cloak){
