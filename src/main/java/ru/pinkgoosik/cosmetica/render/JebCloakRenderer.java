@@ -16,14 +16,19 @@ import ru.pinkgoosik.cosmetica.mixin.PlayerEntityModelAccessor;
 import ru.pinkgoosik.cosmetica.util.DyeUtils;
 
 public class JebCloakRenderer extends CloakRenderer {
+    private final boolean hasGlint;
+
+    public JebCloakRenderer(boolean hasGlint){
+        this.hasGlint = hasGlint;
+    }
 
     @Override
     public void renderCloak(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, PlayerEntityModel<?> contextModel) {
         matrices.push();
         setAngles(matrices, player, tickDelta);
         float[] color = DyeUtils.createJebColorTransition(player, tickDelta);
-        contextModel.renderCape(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer1.png")), false, false), light, OverlayTexture.DEFAULT_UV);
-        ((PlayerEntityModelAccessor) contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer2.png")), false, false), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], 1.0F);
+        contextModel.renderCape(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer1.png")), false, hasGlint), light, OverlayTexture.DEFAULT_UV);
+        ((PlayerEntityModelAccessor) contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer2.png")), false, hasGlint), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], 1.0F);
         matrices.pop();
     }
 
@@ -36,8 +41,8 @@ public class JebCloakRenderer extends CloakRenderer {
         elytra.setAngles(player, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
         if (player.canRenderCapeTexture() && player.isPartVisible(PlayerModelPart.CAPE)) {
             float[] color = DyeUtils.createJebColorTransition(player, tickDelta);
-            elytra.render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer1.png")), false, itemStack.hasGlint()), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-            elytra.render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer2.png")), false, itemStack.hasGlint()), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], 1.0F);
+            elytra.render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer1.png")), false, itemStack.hasGlint() || hasGlint), light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+            elytra.render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer2.png")), false, itemStack.hasGlint() || hasGlint), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], 1.0F);
         }
         matrices.pop();
     }

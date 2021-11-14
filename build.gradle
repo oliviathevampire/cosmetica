@@ -28,6 +28,7 @@ dependencies {
 
 	modRuntimeOnly "com.terraformersmc:modmenu:2.0.9"
 	modRuntimeOnly "supercoder79:databreaker:0.2.7"
+	modRuntimeOnly "com.ptsmods:devlogin:2.0"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.

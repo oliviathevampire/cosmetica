@@ -34,11 +34,11 @@ public abstract class CapeLayerMixin extends FeatureRenderer<AbstractClientPlaye
 				if (entry.uuid().equals(player.getGameProfile().getId().toString()) || player.getName().asString().equals(entry.name())) {
 					ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
 					if (!(itemStack.getItem() instanceof ElytraItem)) {
-						if(FancyCloaks.CLOAK_NAMES.contains(entry.cloak())){
-							Optional<FancyCloaks.FancyCloak> optional = FancyCloaks.getCloakByName(entry.cloak());
-							optional.ifPresent(cloak -> cloak.cloakRenderer().renderCloak(matrices, vertexConsumers, light, player, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch, this.getContextModel()));
+						Optional<FancyCloaks.FancyCloak> optional = FancyCloaks.getCloakByName(entry.cloak());
+						optional.ifPresent(cloak -> {
+							cloak.cloakRenderer().renderCloak(matrices, vertexConsumers, light, player, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch, this.getContextModel());
 							info.cancel();
-						}
+						});
 					}
 				}
 			});

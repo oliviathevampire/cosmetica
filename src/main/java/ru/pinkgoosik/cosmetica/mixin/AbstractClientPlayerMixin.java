@@ -28,10 +28,8 @@ public abstract class AbstractClientPlayerMixin extends PlayerEntity {
 	void getCapeTexture(CallbackInfoReturnable<Identifier> cir) {
 		PlayerCloaks.ENTRIES.forEach(entry -> {
 			if(this.getUuid().equals(UUID.fromString(entry.uuid())) || this.getName().asString().equals(entry.name())){
-				if(Cloaks.CLOAK_NAMES.contains(entry.cloak())){
-					Optional<Cloak> optional = Cloaks.getCloakByName(entry.cloak());
-					optional.ifPresent(cloak -> cir.setReturnValue(cloak.getIdProvider().getId(this, world)));
-				}
+				Optional<Cloak> optional = Cloaks.getCloakByName(entry.cloak());
+				optional.ifPresent(cloak -> cir.setReturnValue(cloak.getIdProvider().getId(this, world)));
 			}
 		});
 	}

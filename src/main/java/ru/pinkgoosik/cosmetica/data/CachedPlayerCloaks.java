@@ -8,7 +8,7 @@ public class CachedPlayerCloaks {
 
     public static void load(){
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("cosmetica/cached_cloaks.json"));
+            BufferedReader reader = new BufferedReader(new FileReader("config/cosmetica/cached_cloaks.json"));
             JsonParser parser = new JsonParser();
             try {
                 JsonArray array = parser.parse(reader).getAsJsonArray();
@@ -32,11 +32,11 @@ public class CachedPlayerCloaks {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
-            File dir = new File("cosmetica");
+            File dir = new File("config/cosmetica");
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            FileWriter writer = new FileWriter("cosmetica/cached_cloaks.json");
+            FileWriter writer = new FileWriter("config/cosmetica/cached_cloaks.json");
             writer.write(gson.toJson(PlayerCloaks.ENTRIES));
             writer.close();
         } catch (IOException ignored) {}
