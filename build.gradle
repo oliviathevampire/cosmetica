@@ -73,15 +73,13 @@ publishing {
 			from components.java
 		}
 	}
-	setupRepositories(repositories)
-}
-
-void setupRepositories(RepositoryHandler repositories) {
-	repositories.maven {
-		url "https://maven.pinkgoosik.ru/"
-		credentials {
-			username System.getenv("MAVEN_REPO_USER")
-			password System.getenv("MAVEN_REPO_PASS")
+	repositories {
+		maven {
+			url "https://maven.pinkgoosik.ru/"
+			credentials {
+				username System.getenv("MAVEN_REPO_USER")
+				password System.getenv("MAVEN_REPO_PASS")
+			}
 		}
 	}
 }

@@ -22,19 +22,25 @@ public class PlayerCloaks {
 			request.connect();
 			JsonParser parser = new JsonParser();
 			InputStream stream = request.getInputStream();
-			JsonArray array = parser.parse(new InputStreamReader(stream)).getAsJsonArray();
-			array.forEach(element -> {
-				if(element.isJsonObject()){
-					JsonObject object = element.getAsJsonObject();
-					try {
-						String name, uuid, cloak;
-						name = object.get("name").getAsString();
-						uuid = object.get("uuid").getAsString();
-						cloak = object.get("cloak").getAsString();
-						ENTRIES.add(new Entry(name, uuid, cloak));
-					}catch (ClassCastException ignored){}
-				}
-			});
+			JsonElement element = parser.parse(new InputStreamReader(stream));
+			if(element.isJsonArray()){
+				element.getAsJsonArray().forEach(entry -> {
+					if(entry.isJsonObject()){
+						JsonObject object = entry.getAsJsonObject();
+						if(object.get("name") != null && object.get("uuid") != null && object.get("cloak") != null){
+							try {
+								String name, uuid, cloak;
+								name = object.get("name").getAsString();
+								uuid = object.get("uuid").getAsString();
+								cloak = object.get("cloak").getAsString();
+								ENTRIES.add(new Entry(name, uuid, cloak));
+							}catch (ClassCastException | IllegalStateException ignored){}
+						}
+					}
+				});
+			}else {
+				CosmeticaMod.LOGGER.warn(CLOAKS_DATA_URL + " is not a json array");
+			}
 		} catch (IOException | JsonIOException | JsonSyntaxException e) {
 			PlayerCloaks.ENTRIES.clear();
 			CosmeticaMod.LOGGER.warn("Failed to load Player Cloaks due to an exception: " + e);
@@ -43,7 +49,10 @@ public class PlayerCloaks {
 				CosmeticaMod.LOGGER.info("Player Cloaks successfully loaded");
 				CachedPlayerCloaks.save();
 			}
-			else CachedPlayerCloaks.load();
+			else {
+				CosmeticaMod.LOGGER.info("Something went wrong, loading cloaks from cache");
+				CachedPlayerCloaks.load();
+			}
 		}
 	}
 

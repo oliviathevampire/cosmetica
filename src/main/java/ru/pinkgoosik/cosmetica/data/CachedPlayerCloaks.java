@@ -11,18 +11,24 @@ public class CachedPlayerCloaks {
             BufferedReader reader = new BufferedReader(new FileReader("config/cosmetica/cached_cloaks.json"));
             JsonParser parser = new JsonParser();
             try {
-                JsonArray array = parser.parse(reader).getAsJsonArray();
+                JsonElement element = parser.parse(reader);
                 PlayerCloaks.ENTRIES.clear();
-                array.forEach(element -> {
-                    JsonObject object = element.getAsJsonObject();
-                    try {
-                        String name, uuid, cloak;
-                        name = object.get("name").getAsString();
-                        uuid = object.get("uuid").getAsString();
-                        cloak = object.get("cloak").getAsString();
-                        PlayerCloaks.ENTRIES.add(new PlayerCloaks.Entry(name, uuid, cloak));
-                    }catch (ClassCastException ignored){}
-                });
+                if(element.isJsonArray()){
+                    element.getAsJsonArray().forEach(entry -> {
+                        if(entry.isJsonObject()){
+                            JsonObject object = entry.getAsJsonObject();
+                            if(object.get("name") != null && object.get("uuid") != null && object.get("cloak") != null){
+                                try {
+                                    String name, uuid, cloak;
+                                    name = object.get("name").getAsString();
+                                    uuid = object.get("uuid").getAsString();
+                                    cloak = object.get("cloak").getAsString();
+                                    PlayerCloaks.ENTRIES.add(new PlayerCloaks.Entry(name, uuid, cloak));
+                                }catch (ClassCastException | IllegalStateException ignored){}
+                            }
+                        }
+                    });
+                }
             }catch (IllegalStateException ignored){}
         } catch (FileNotFoundException | JsonSyntaxException | JsonIOException ignored) {}
     }
