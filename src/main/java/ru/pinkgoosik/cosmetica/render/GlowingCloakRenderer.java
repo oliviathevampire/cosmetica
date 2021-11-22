@@ -14,11 +14,12 @@ import net.minecraft.item.ItemStack;
 import ru.pinkgoosik.cosmetica.mixin.PlayerEntityModelAccessor;
 import ru.pinkgoosik.cosmetica.util.ColorUtil;
 
-public class GlowingCloakRenderer extends CloakRenderer {
+public class GlowingCloakRenderer implements CloakRenderer {
+
     @Override
     public void renderCloak(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, PlayerEntityModel<?> contextModel) {
         matrices.push();
-        setAngles(matrices, player, tickDelta);
+        CloakRenderer.setAngles(matrices, player, tickDelta);
         float[] color = ColorUtil.toFloatArray(ColorUtil.color("FFFFFF"));
         ((PlayerEntityModelAccessor) contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getLightning(), false, false), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], color[3]);
         matrices.pop();
@@ -37,4 +38,5 @@ public class GlowingCloakRenderer extends CloakRenderer {
         }
         matrices.pop();
     }
+
 }

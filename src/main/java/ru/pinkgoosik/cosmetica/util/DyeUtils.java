@@ -17,7 +17,6 @@ public class DyeUtils {
 			return new float[] {0.9019608F, 0.9019608F, 0.9019608F};
 		} else {
 			float[] fs = color.getColorComponents();
-			float f = 0.75F;
 			return new float[] {fs[0] * 0.75F, fs[1] * 0.75F, fs[2] * 0.75F};
 		}
 	}

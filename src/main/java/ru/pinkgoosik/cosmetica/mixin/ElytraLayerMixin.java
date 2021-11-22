@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.pinkgoosik.cosmetica.cosmetics.cloak.FancyCloaks;
-import ru.pinkgoosik.cosmetica.data.PlayerCloaks;
+import ru.pinkgoosik.cosmetica.data.PlayerEntries;
 
 import java.util.Optional;
 
@@ -37,11 +37,11 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T livingEntity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, CallbackInfo info) {
 		if (livingEntity instanceof AbstractClientPlayerEntity player) {
-			PlayerCloaks.ENTRIES.forEach(entry -> {
-				if (entry.uuid().equals(player.getGameProfile().getId().toString()) || player.getName().asString().equals(entry.name())) {
+			PlayerEntries.ENTRIES.forEach(entry -> {
+				if (entry.user.uuid.equals(player.getGameProfile().getId().toString()) || player.getName().asString().equals(entry.user.name)) {
 					ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
 					if (itemStack.getItem() instanceof ElytraItem) {
-						Optional<FancyCloaks.FancyCloak> optional = FancyCloaks.getCloakByName(entry.cloak());
+						Optional<FancyCloaks.FancyCloak> optional = FancyCloaks.getCloakByName(entry.cloak.name);
 						optional.ifPresent(cloak -> {
 							cloak.cloakRenderer().renderElytra(matrices, vertexConsumers, light, player, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch, (EntityModel<AbstractClientPlayerEntity>)this.getContextModel(), (EntityModel<AbstractClientPlayerEntity>)elytra);
 							info.cancel();

@@ -15,17 +15,12 @@ import net.minecraft.util.Identifier;
 import ru.pinkgoosik.cosmetica.mixin.PlayerEntityModelAccessor;
 import ru.pinkgoosik.cosmetica.util.DyeUtils;
 
-public class JebCloakRenderer extends CloakRenderer {
-    private final boolean hasGlint;
-
-    public JebCloakRenderer(boolean hasGlint){
-        this.hasGlint = hasGlint;
-    }
+public record JebCloakRenderer(boolean hasGlint) implements CloakRenderer {
 
     @Override
     public void renderCloak(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, PlayerEntityModel<?> contextModel) {
         matrices.push();
-        setAngles(matrices, player, tickDelta);
+        CloakRenderer.setAngles(matrices, player, tickDelta);
         float[] color = DyeUtils.createJebColorTransition(player, tickDelta);
         contextModel.renderCape(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer1.png")), false, hasGlint), light, OverlayTexture.DEFAULT_UV);
         ((PlayerEntityModelAccessor) contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(new Identifier("cosmetica:textures/cloak/cape_layer2.png")), false, hasGlint), light, OverlayTexture.DEFAULT_UV, color[0], color[1], color[2], 1.0F);
@@ -46,4 +41,5 @@ public class JebCloakRenderer extends CloakRenderer {
         }
         matrices.pop();
     }
+
 }

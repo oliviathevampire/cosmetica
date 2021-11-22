@@ -14,12 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import ru.pinkgoosik.cosmetica.mixin.PlayerEntityModelAccessor;
 
-public class SwirlyCloakRenderer extends CloakRenderer {
+public class SwirlyCloakRenderer implements CloakRenderer {
 
     @Override
     public void renderCloak(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, PlayerEntityModel<?> contextModel) {
         matrices.push();
-        setAngles(matrices, player, tickDelta);
+        CloakRenderer.setAngles(matrices, player, tickDelta);
         float f = player.age + tickDelta;
         ((PlayerEntityModelAccessor)contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getEnergySwirl(new Identifier("textures/entity/creeper/creeper_armor.png"), f * 0.01F % 1.0F, f * 0.01F % 1.0F), false, false), light, OverlayTexture.DEFAULT_UV);
         matrices.pop();
@@ -38,4 +38,5 @@ public class SwirlyCloakRenderer extends CloakRenderer {
         }
         matrices.pop();
     }
+
 }

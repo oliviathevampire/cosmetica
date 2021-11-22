@@ -13,12 +13,12 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import ru.pinkgoosik.cosmetica.mixin.PlayerEntityModelAccessor;
 
-public class CosmicCloakRenderer extends CloakRenderer {
+public class CosmicCloakRenderer implements CloakRenderer {
 
     @Override
     public void renderCloak(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, PlayerEntityModel<?> contextModel) {
         matrices.push();
-        setAngles(matrices, player, tickDelta);
+        CloakRenderer.setAngles(matrices, player, tickDelta);
         ((PlayerEntityModelAccessor) contextModel).getCloak().render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getEndGateway(), false, false), light, OverlayTexture.DEFAULT_UV);
         matrices.pop();
     }
@@ -35,4 +35,5 @@ public class CosmicCloakRenderer extends CloakRenderer {
         }
         matrices.pop();
     }
+
 }
